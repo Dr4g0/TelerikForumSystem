@@ -1,0 +1,14 @@
+﻿@model ForumSystem.Web.ViewModels.Feedbacks.FeedbackViewModel
+
+@if (TempData["Success"] != null)
+{
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            @TempData["Success"].ToString()
+        </div>
+    </div>
+}
+
+<h1>Title: @Model.Title</h1>
+<strong>Content: </strong>@Html.Raw(Model.Content)
+

@@ -1,0 +1,51 @@
+﻿@using ForumSystem.Web.Areas.Administration.ViewModels.Posts;
+
+@{
+    const string ControllerName = "Posts";
+    ViewBag.Title = ControllerName;
+}
+<h2>@ViewBag.Title</h2>
+
+@*@(Html.FullFeaturedGrid<PostAdminViewModel>(ControllerName, m => m.Id))*@
+
+@(Html.Kendo().Grid<PostAdminViewModel>()
+        .Name("grid")
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.Id).Width(50);
+            columns.Bound(c => c.AuthorName).Width(100);
+            columns.Bound(c => c.Title).Width(100);
+            columns.Bound(c => c.Content).Width(300);
+            columns.Bound(c => c.CreatedOn).Width(80);
+            columns.Bound(c => c.ModifiedOn).Width(80);
+            columns.Bound(c => c.IsDeleted).Width(50);
+            columns.Command(c => c.Edit()).Width(50);
+            columns.Command(c => c.Destroy()).Width(50);
+        })
+        .HtmlAttributes(new { style = "height: 380px;" })
+                .Editable(edit => edit.Mode(GridEditMode.PopUp))
+        .Filterable()
+        .Scrollable()
+        .Sortable()
+        .ToolBar(toolbar => toolbar.Create())
+        .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(true)
+            .ButtonCount(5))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+                .Model(model =>
+                {
+                    model.Id(x => x.Id);
+                    model.Field(p => p.Id).Editable(false);
+                    model.Field(p => p.AuthorName).Editable(false);
+                    model.Field(p => p.CreatedOn).Editable(false);
+                    model.Field(p => p.ModifiedOn).Editable(false);
+                    model.Field(p => p.IsDeleted).Editable(false);
+                })
+            .Read(read => read.Action("Posts_Read", "Posts"))
+                .Create(create => create.Action("Create", "Posts"))
+            .Update(update => update.Action("Update", "Posts"))
+                    .Destroy(destroy => destroy.Action("Destroy", "Posts"))
+        )
+)

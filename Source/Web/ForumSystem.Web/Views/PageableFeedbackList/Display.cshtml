@@ -1,0 +1,30 @@
+﻿@model IList<ForumSystem.Web.ViewModels.Feedbacks.FeedbackListViewModel>
+
+@{
+    ViewBag.Title = "All Feedbacks";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Created On</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var feedback in Model)
+        {
+            <tr>
+                <td><strong>@feedback.AuthorName</strong></td>
+                <td>@feedback.Title</td>
+                <td>@feedback.Content</td>
+                <td>@feedback.CreatedOn</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
